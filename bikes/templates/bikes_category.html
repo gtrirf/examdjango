@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Bikes by category
+{% endblock title %}
+
+{% block content %}
+    <div class="bikes-by-category">
+        <h2>Bikes in {{ category.name }} Category</h2>
+        {% if bikes %}
+            <ul class="bike-list">
+                {% for bike in bikes %}
+                    <li class="bike-item">
+                        <img src="{{ bike.image.url }}" alt="{{ bike.bikemodel }}" width="100px">
+                        <h3>{{ bike.bikemodel }}</h3>
+                        <p>Color: {{ bike.bikecolor }}</p>
+                        <p>Size: {{ bike.size }}</p>
+                        <p>Price: {{ bike.price }}</p>
+                        <p>Miqdori: {{ bike.miqdori }}</p>
+                        <p>Category: {{ bike.category.name }}</p>
+                        <a href="{% url 'bikes:bike-detail' bike.id %}" class="btn btn-secondary">View Details</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Bu Categorya bo'yicha hozircha bizda mahsulot yo'q</p>
+        {% endif %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Bike Detail
+{% endblock title %}
+
+{% block content %}
+    <style>
+        /* CSS for Bike Detail page */
+        .detail {
+            margin: auto;
+            width: 50%;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .detail h2 {
+            margin-bottom: 20px;
+        }
+
+        .detail .bike-info {
+            margin-bottom: 20px;
+        }
+
+        .detail .bike-info img {
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+
+        .detail .reviews {
+            margin-top: 20px;
+        }
+
+        .detail .review {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .detail .review p {
+            margin: 5px 0;
+        }
+
+        .detail .review .review-actions {
+            margin-top: 10px;
+        }
+
+        .detail .reviews .btn {
+            margin-top: 20px;
+        }
+
+    </style>
+
+    <div class="detail">
+        <h2>Bike Detail</h2>
+        <div class="bike-info">
+            <img src="{{ bike.image.url }}" alt="Bike Image" width="100px">
+            <h3>Model: {{ bike.bikemodel }}</h3>
+            <p>Color: {{ bike.bikecolor }}</p>
+            <p>Size: {{ bike.size }}</p>
+            <p>Price: {{ bike.price }}</p>
+            <p>Miqdori: {{ bike.miqdori }}</p>
+            <p>Category: {{ bike.category.name }}</p> <!-- Adjusted to use category name -->
+        </div>
+        <hr>
+        <h3>Reviews</h3>
+        <div class="reviews">
+            {% for review in reviews %}
+                <div class="review">
+                    <p><strong>{{ review.user.username }}</strong></p>
+                    <p>star given: {{ review.star_given }} stars</p>
+                    <p>{{ review.comment }}</p>
+                    {% if review.user == request.user %}
+                        <div class="review-actions">
+                            <a href="{% url 'bikes:update-review' pk=review.pk %}" class="btn btn-warning">Edit</a>
+                            <a href="{% url 'bikes:delete-review' pk=review.pk %}" class="btn btn-danger">Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>hali comment yo'q</p>
+            {% endfor %}
+            <a href="{% url 'bikes:add-review' bike.pk %}" class="btn btn-primary">Add Review</a>
+            <form class="purchase-request-form" method="POST" action="{% url 'bikes:handle_purchase_request' %}">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Your Name">
+                <input type="text" name="phone" placeholder="Your Phone Number">
+                <input type="submit" value="Send Purchase Request">
+            </form>
+        </div>
+    </div>
+{% endblock content %}

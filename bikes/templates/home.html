@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home Page
+{% endblock title %}
+
+{% block content %}
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .latest-bikes, .latest-reviews {
+            margin-bottom: 30px;
+        }
+
+        .bike-info, .review-info {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .bike-info img {
+            margin-right: 10px;
+        }
+
+        .bike-info a, .review-info a {
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .bike-info a:hover, .review-info a:hover {
+            text-decoration: underline;
+        }
+
+        li {
+            list-style: none;
+        }
+    </style>
+
+    <div class="container">
+        <h1>Welcome to Bike Reviews</h1>
+
+        <h2>Latest Bikes</h2>
+        <div class="latest-bikes">
+            <ul>
+                {% for bike in bikes %}
+                    <div class="bike-info">
+                        <img src="{{ bike.image.url }}" alt="{{ bike.bikemodel }} image" width="100px">
+                        <a href="{% url 'bikes:bike-detail' bike.pk %}">{{ bike.bikemodel }}</a>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
